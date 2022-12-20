@@ -54,7 +54,7 @@ function PersonalInfo() {
         {inputTypes.map((type, i) => (
           <li
             key={type}
-            className={`${i === inputTypes.length - 1 ? "mb-20" : "mb-4 "}`}
+            className={`${i === inputTypes.length - 1 ? "mb-16" : "mb-4 "}`}
           >
             <p className="text-primary-blue-marine mb-1">
               {type[0].toUpperCase().concat(type.slice(1))}
