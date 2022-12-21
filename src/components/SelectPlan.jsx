@@ -4,26 +4,31 @@ import { motion } from "framer-motion";
 import NextStepBtn from "./NextStepBtn";
 import { Link } from "react-router-dom";
 import Switch from "./Switch";
+import { useEffect } from "react";
 
-function SelectPlan() {
+function SelectPlan({ setCurrentStep }) {
   const [activeId, setActiveId] = useState(null);
   const [isYearly, setIsYearly] = useState(false);
+
+  useEffect(() => {
+    setCurrentStep(2);
+  }, []);
 
   const plans = [
     {
       type: "Arcade",
       img: "../../../public/images/icon-arcade.svg",
-      billing: !isYearly ? "$9/mo" : "$90/yr",
+      billing: !isYearly ? 9 : 90,
     },
     {
       type: "Advanced",
       img: "../../../public/images/icon-advanced.svg",
-      billing: !isYearly ? "$12/mo" : "$120/yr",
+      billing: !isYearly ? 12 : 120,
     },
     {
       type: "Pro",
       img: "../../../public/images/icon-pro.svg",
-      billing: !isYearly ? "$15/mo" : "$150/yr",
+      billing: !isYearly ? 15 : 150,
     },
   ];
 
@@ -96,7 +101,11 @@ function SelectPlan() {
         <Link to="/" className="text-neutral-gray-cool font-bold text-lg">
           Go back
         </Link>
-        {activeId && <NextStepBtn />}
+        {activeId && (
+          <Link to="/addons">
+            <NextStepBtn />
+          </Link>
+        )}
       </div>
     </motion.div>
   );

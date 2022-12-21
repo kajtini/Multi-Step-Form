@@ -3,13 +3,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import InputInfo from "./InputInfo";
 import NextStepBtn from "./NextStepBtn";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
-function PersonalInfo() {
+function PersonalInfo({ setCurrentStep }) {
   const [inputData, setInputData] = useState({
     name: "",
     email: "",
     phone: "",
   });
+
+  useEffect(() => {
+    setCurrentStep(1);
+  }, []);
 
   const inputTypes = Object.keys(inputData);
 

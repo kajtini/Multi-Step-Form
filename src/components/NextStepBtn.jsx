@@ -12,7 +12,7 @@ function NextStepBtn() {
         transition: { opacity: { duration: 0.2 } },
       }}
       className="bg-primary-blue-marine text-white 
-      font-medium p-3 w-[30%] rounded-lg cursor-pointer self-end"
+      font-medium p-3 rounded-lg cursor-pointer"
     >
       Next Step
     </motion.button>

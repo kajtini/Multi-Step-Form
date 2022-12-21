@@ -1,12 +1,28 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useEffect } from "react";
 
-function Sidebar() {
-  const steps = [
+function Sidebar({ currentStep }) {
+  const [steps, setSteps] = useState([
     { stepNumber: 1, stepPlan: "Your info", selected: false },
     { stepNumber: 2, stepPlan: "Select Plan", selected: false },
     { stepNumber: 3, stepPlan: "Add-Ons", selected: false },
     { stepNumber: 4, stepPlan: "Summary", selected: false },
-  ];
+  ]);
+
+  useEffect(() => {
+    setSteps((prevSteps) => [
+      ...prevSteps.map((step) => {
+        if (step.stepNumber !== currentStep) {
+          step.selected = false;
+        } else {
+          step.selected = true;
+        }
+
+        return step;
+      }),
+    ]);
+  }, [currentStep]);
 
   const stepsVariants = {
     hidden: {
@@ -26,7 +42,7 @@ function Sidebar() {
    h-[568px] w-[274px]"
       >
         <ul>
-          {steps.map((step) => (
+          {steps?.map((step) => (
             <motion.li
               key={step.stepNumber}
               className="flex items-center gap-4 mb-6"
@@ -40,7 +56,7 @@ function Sidebar() {
                 delay: 0.2 * step.stepNumber,
               }}
             >
-              <div
+              <motion.div
                 className={`border-solid border-white border-[1px] flex justify-center items-center rounded-[50%] w-10 h-10 font-medium 
             ${
               step.selected &&
@@ -48,7 +64,7 @@ function Sidebar() {
             }`}
               >
                 {step.stepNumber}
-              </div>
+              </motion.div>
               <div>
                 <p className="uppercase text-xs font-light text-neutral-gray-cool">
                   Step {step.stepNumber}

@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 function Switch({ handleClick, isYearly }) {
   return (
     <div className="w-full bg-neutral-magnolia flex items-center py-3 justify-center gap-5 rounded-lg mb-28">
-      <p className="font-bold">Monthly</p>
+      <p
+        className={`font-bold ${
+          isYearly ? "text-neutral-gray-cool" : "text-primary-blue-marine"
+        }`}
+      >
+        Monthly
+      </p>
       <div
         className={` bg-primary-blue-marine flex ${
           isYearly ? "justify-end" : "justify-start"
@@ -16,7 +22,13 @@ function Switch({ handleClick, isYearly }) {
           className="bg-white rounded-[50%] w-[12px] h-[12px]"
         ></motion.div>
       </div>
-      <p className="font-bold">Yearly</p>
+      <p
+        className={`font-bold ${
+          isYearly ? "text-primary-blue-marine" : "text-neutral-gray-cool"
+        } `}
+      >
+        Yearly
+      </p>
     </div>
   );
 }

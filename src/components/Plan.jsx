@@ -46,7 +46,7 @@ function Plan({ type, id, activeId, img, billing, handleClick, isYearly }) {
       <img src={`${img}`} alt="plan icon" className="mb-10" />
       <p className="font-bold text-primary-blue-marine text-xl">{type}</p>
       <p className={`text-neutral-gray-cool ${isYearly && "mb-1"}`}>
-        {billing}
+        {`$${billing}/${isYearly ? "yr" : "mo"}`}
       </p>
       <AnimatePresence mode="wait">
         {isYearly && (
