@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import InputInfo from "./InputInfo";
 import NextStepBtn from "./NextStepBtn";
+import { Link } from "react-router-dom";
 
 function PersonalInfo() {
   const [inputData, setInputData] = useState({
@@ -32,16 +33,25 @@ function PersonalInfo() {
         type: "spring",
         damping: 15,
         stiffness: 80,
-        delay: 1.3,
+        delay: 0.2,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: "-100%",
+      transition: {
+        duration: 0.3,
       },
     },
   };
 
   return (
     <motion.div
+      layout
       variants={containerVariants}
       initial="hidden"
       animate="visible"
+      exit="exit"
       className="flex flex-col"
     >
       <h1 className="font-bold text-4xl text-primary-blue-marine">
@@ -52,7 +62,9 @@ function PersonalInfo() {
       </p>
       <ul>
         {inputTypes.map((type, i) => (
-          <li
+          <motion.li
+            layout
+            transition={{ duration: 1 }}
             key={type}
             className={`${i === inputTypes.length - 1 ? "mb-16" : "mb-4 "}`}
           >
@@ -64,10 +76,16 @@ function PersonalInfo() {
               handleChange={handleChange}
               inputData={inputData[type]}
             />
-          </li>
+          </motion.li>
         ))}
       </ul>
-      <NextStepBtn />
+      <AnimatePresence>
+        {inputData.name && inputData.email && inputData.phone && (
+          <Link className="w-full flex justify-end" to="/plan">
+            <NextStepBtn />
+          </Link>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
