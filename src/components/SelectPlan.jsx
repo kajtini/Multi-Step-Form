@@ -5,14 +5,23 @@ import NextStepBtn from "./NextStepBtn";
 import { Link } from "react-router-dom";
 import Switch from "./Switch";
 import { useEffect } from "react";
+import { useYearly, useYearlyUpdate } from "../context/YearlyContext";
+import { usePlanUpdate } from "../context/PlanContext";
 
 function SelectPlan({ setCurrentStep }) {
   const [activeId, setActiveId] = useState(null);
-  const [isYearly, setIsYearly] = useState(false);
+
+  const isYearly = useYearly();
+  const setIsYearly = useYearlyUpdate();
+  const setSelectedPlan = usePlanUpdate();
 
   useEffect(() => {
     setCurrentStep(2);
   }, []);
+
+  useEffect(() => {
+    setSelectedPlan([...plans.filter((plan) => plan.type === activeId)]);
+  }, [activeId, isYearly]);
 
   const plans = [
     {
@@ -92,7 +101,6 @@ function SelectPlan({ setCurrentStep }) {
             billing={plan.billing}
             handleClick={handlePlanClick}
             activeId={activeId}
-            isYearly={isYearly}
           />
         ))}
       </div>

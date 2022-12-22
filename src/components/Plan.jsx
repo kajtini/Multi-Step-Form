@@ -1,6 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { useYearly } from "../context/YearlyContext";
 
-function Plan({ type, id, activeId, img, billing, handleClick, isYearly }) {
+function Plan({ type, id, activeId, img, billing, handleClick }) {
+  const isYearly = useYearly();
+
   const planVariants = {
     hover: {
       scale: 1.1,

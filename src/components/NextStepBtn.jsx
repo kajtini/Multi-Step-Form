@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-function NextStepBtn() {
+function NextStepBtn({ complete }) {
   return (
     <motion.button
       initial={{ y: "100%", opacity: 0 }}
@@ -14,7 +14,7 @@ function NextStepBtn() {
       className="bg-primary-blue-marine text-white 
       font-medium p-3 rounded-lg cursor-pointer"
     >
-      Next Step
+      {complete ? complete : "Next Step"}
     </motion.button>
   );
 }

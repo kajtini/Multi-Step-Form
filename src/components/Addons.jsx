@@ -3,8 +3,37 @@ import { motion } from "framer-motion";
 import NextStepBtn from "./NextStepBtn";
 import Addon from "./Addon";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useYearly } from "../context/YearlyContext";
+import { useAddonsUpdate } from "../context/AddonsContext";
 
 function Addons({ setCurrentStep }) {
+  const setSelectedAddons = useAddonsUpdate();
+  const isYearly = useYearly();
+  const [addons, setAddons] = useState([
+    {
+      id: 1,
+      type: "Online service",
+      desc: "Access to multiplayer games",
+      billing: !isYearly ? 1 : 10,
+      selected: false,
+    },
+    {
+      id: 2,
+      type: "Larger Storage",
+      desc: "Extra 1TB of cloud save",
+      billing: !isYearly ? 2 : 20,
+      selected: false,
+    },
+    {
+      id: 3,
+      type: "Customizable Profile",
+      desc: "Custom theme on your profile",
+      billing: !isYearly ? 2 : 20,
+      selected: false,
+    },
+  ]);
+
   const containerVariants = {
     hidden: {
       opacity: 0,
@@ -29,30 +58,23 @@ function Addons({ setCurrentStep }) {
     },
   };
 
-  const addons = [
-    {
-      id: 1,
-      type: "Online service",
-      descirption: "Access to multiplayer games",
-      billing: 1,
-    },
-    {
-      id: 2,
-      type: "Larger Storage",
-      descirption: "Extra 1TB of cloud save",
-      billing: 2,
-    },
-    {
-      id: 3,
-      type: "Customizable Profile",
-      descirption: "Custom theme on your profile",
-      billing: 2,
-    },
-  ];
-
   useEffect(() => {
     setCurrentStep(3);
   }, []);
+
+  useEffect(() => {
+    setSelectedAddons(addons.filter((addon) => addon.selected));
+  }, [addons]);
+
+  function handleAddonClick(id) {
+    setAddons((prevAddons) =>
+      prevAddons.map((addon) => {
+        return addon.id === id
+          ? { ...addon, selected: !addon.selected }
+          : addon;
+      })
+    );
+  }
 
   return (
     <motion.div
@@ -70,13 +92,11 @@ function Addons({ setCurrentStep }) {
       </p>
       <ul className="mb-14">
         {addons.map((addon, i) => (
-          <li className={`${i !== addons.length - 1 && "mb-4"}`}>
+          <li key={addon.id} className={`${i !== addons.length - 1 && "mb-4"}`}>
             <Addon
-              key={addon.id}
-              id={addon.id}
-              type={addon.type}
-              desc={addon.descirption}
-              billing={addon.billing}
+              {...addon}
+              handleClick={handleAddonClick}
+              isYearly={isYearly}
             />
           </li>
         ))}
@@ -85,7 +105,9 @@ function Addons({ setCurrentStep }) {
         <Link to="/plan" className="text-neutral-gray-cool font-bold text-lg">
           Go back
         </Link>
-        <NextStepBtn />
+        <Link to="/summary">
+          <NextStepBtn />
+        </Link>
       </div>
     </motion.div>
   );
