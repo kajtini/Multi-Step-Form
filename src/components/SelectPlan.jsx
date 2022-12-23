@@ -7,10 +7,12 @@ import Switch from "./Switch";
 import { useEffect } from "react";
 import { useYearly, useYearlyUpdate } from "../context/YearlyContext";
 import { usePlanUpdate } from "../context/PlanContext";
+import { useStepUpdate } from "../context/StepContext";
 
-function SelectPlan({ setCurrentStep }) {
+function SelectPlan() {
   const [activeId, setActiveId] = useState(null);
 
+  const setCurrentStep = useStepUpdate();
   const isYearly = useYearly();
   const setIsYearly = useYearlyUpdate();
   const setSelectedPlan = usePlanUpdate();
@@ -79,7 +81,7 @@ function SelectPlan({ setCurrentStep }) {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="w-[50%]"
+      className="2xl:w-[80%] mx-auto"
     >
       <h1 className="font-bold text-4xl text-primary-blue-marine">
         Select your plan
@@ -89,7 +91,7 @@ function SelectPlan({ setCurrentStep }) {
       </p>
 
       <div
-        className="grid grid-cols-3 gap-x-4 mb-7
+        className="grid  grid-cols-1 2xl:grid-cols-3 gap-x-4 mb-7
       "
       >
         {plans.map((plan) => (
@@ -104,6 +106,7 @@ function SelectPlan({ setCurrentStep }) {
           />
         ))}
       </div>
+
       <Switch handleClick={handleSwitchClick} isYearly={isYearly} />
       <div className="flex items-center justify-between">
         <Link to="/" className="text-neutral-gray-cool font-bold text-lg">

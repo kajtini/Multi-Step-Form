@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 function Switch({ handleClick, isYearly }) {
   return (
-    <div className="w-full bg-neutral-magnolia flex items-center py-3 justify-center gap-5 rounded-lg mb-28">
+    <div className="w-full bg-neutral-magnolia flex items-center py-3 justify-center gap-5 rounded-lg mb-10 2xl:mb-28">
       <p
         className={`font-bold ${
           isYearly ? "text-neutral-gray-cool" : "text-primary-blue-marine"
@@ -18,7 +18,7 @@ function Switch({ handleClick, isYearly }) {
       >
         <motion.div
           layout
-          transition={{ type: "spring", stiffness: 500, damping: 25 }}
+          transition={{ type: "spring", stiffness: 700, damping: 30 }}
           className="bg-white rounded-[50%] w-[12px] h-[12px]"
         ></motion.div>
       </div>

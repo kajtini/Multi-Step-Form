@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useYearly } from "../context/YearlyContext";
 import { useAddonsUpdate } from "../context/AddonsContext";
+import { useStepUpdate } from "../context/StepContext";
 
-function Addons({ setCurrentStep }) {
+function Addons() {
+  const setCurrentStep = useStepUpdate();
   const setSelectedAddons = useAddonsUpdate();
   const isYearly = useYearly();
   const [addons, setAddons] = useState([
@@ -82,7 +84,7 @@ function Addons({ setCurrentStep }) {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="w-[50%]"
+      className="2xl:w-[80%] mx-auto"
     >
       <h1 className="font-bold text-4xl text-primary-blue-marine">
         Pick Aadd-ons

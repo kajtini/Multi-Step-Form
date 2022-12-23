@@ -40,17 +40,20 @@ function Plan({ type, id, activeId, img, billing, handleClick }) {
     <motion.div
       variants={planVariants}
       whileHover="hover"
-      className={`flex flex-col items-start px-4 py-5 border-[1px] border-solid
-    border-neutral-gray-cool rounded-xl max-w-[180px] cursor-pointer ${
+      className={`flex flex-row items-center gap-3 2xl:gap-0 2xl:flex-col 2xl:items-start
+   px-4 py-5 border-[1px] border-solid mb-3 2xl:mb-0
+    border-neutral-gray-cool rounded-xl  cursor-pointer ${
       id === activeId && "bg-neutral-magnolia border-primary-blue-purplish"
     }`}
       onClick={() => handleClick(id)}
     >
-      <img src={`${img}`} alt="plan icon" className="mb-10" />
-      <p className="font-bold text-primary-blue-marine text-xl">{type}</p>
-      <p className={`text-neutral-gray-cool ${isYearly && "mb-1"}`}>
-        {`$${billing}/${isYearly ? "yr" : "mo"}`}
-      </p>
+      <img src={`${img}`} alt="plan icon" className="2xl:mb-10" />
+      <div className="mr-auto 2xl:mr-0">
+        <p className="font-bold text-primary-blue-marine text-xl">{type}</p>
+        <p className={`text-neutral-gray-cool ${isYearly && "lg:mb-2"}`}>
+          {`$${billing}/${isYearly ? "yr" : "mo"}`}
+        </p>
+      </div>
       <AnimatePresence mode="wait">
         {isYearly && (
           <motion.p
@@ -58,7 +61,7 @@ function Plan({ type, id, activeId, img, billing, handleClick }) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="text-sm text-primary-blue-marine font-medium"
+            className="text-sm text-primary-blue-marine font-medium "
           >
             2 months free
           </motion.p>

@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useStep } from "../context/StepContext";
 
-function Sidebar({ currentStep }) {
+function Sidebar() {
+  const currentStep = useStep();
   const [steps, setSteps] = useState([
     { stepNumber: 1, stepPlan: "Your info", selected: false },
     { stepNumber: 2, stepPlan: "Select Plan", selected: false },
@@ -11,17 +13,13 @@ function Sidebar({ currentStep }) {
   ]);
 
   useEffect(() => {
-    setSteps((prevSteps) => [
-      ...prevSteps.map((step) => {
-        if (step.stepNumber !== currentStep) {
-          step.selected = false;
-        } else {
-          step.selected = true;
-        }
-
-        return step;
-      }),
-    ]);
+    setSteps((prevSteps) =>
+      prevSteps.map((step) => {
+        return currentStep === step.stepNumber
+          ? { ...step, selected: true }
+          : { ...step, selected: false };
+      })
+    );
   }, [currentStep]);
 
   const stepsVariants = {
@@ -36,16 +34,16 @@ function Sidebar({ currentStep }) {
   };
 
   return (
-    <div className="">
+    <div>
       <div
-        className="bg-sidebar-pattern bg-no-repeat px-9 py-10 text-white 
-   h-[568px] w-[274px]"
+        className="2xl:bg-sidebar-pattern bg-[url('../../public/images/bg-sidebar-mobile.svg')] bg-cover bg-no-repeat px-9 py-10 text-white 
+   2xl:h-[568px] 2xl:w-[274px]"
       >
-        <ul>
+        <ul className="flex 2xl:block justify-around ">
           {steps?.map((step) => (
             <motion.li
               key={step.stepNumber}
-              className="flex items-center gap-4 mb-6"
+              className="flex items-center gap-4 2xl:mb-6"
               variants={stepsVariants}
               initial="hidden"
               animate="visible"
@@ -57,7 +55,7 @@ function Sidebar({ currentStep }) {
               }}
             >
               <motion.div
-                className={`border-solid border-white border-[1px] flex justify-center items-center rounded-[50%] w-10 h-10 font-medium 
+                className={`border-solid border-white border-[1px] flex justify-center items-center rounded-[50%] w-12 h-12 2xl:w-10 2xl:h-10 font-medium 
             ${
               step.selected &&
               "bg-primary-blue-light border-primary-blue-light text-primary-blue-marine"
@@ -65,7 +63,7 @@ function Sidebar({ currentStep }) {
               >
                 {step.stepNumber}
               </motion.div>
-              <div>
+              <div className="hidden 2xl:block">
                 <p className="uppercase text-xs font-light text-neutral-gray-cool">
                   Step {step.stepNumber}
                 </p>

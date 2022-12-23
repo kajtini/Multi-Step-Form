@@ -5,12 +5,13 @@ import { useYearly } from "../context/YearlyContext";
 import { usePlan } from "../context/PlanContext";
 import { useAddons } from "../context/AddonsContext";
 import NextStepBtn from "./NextStepBtn";
+import { useStepUpdate } from "../context/StepContext";
 
-function Summary({ setCurrentStep }) {
+function Summary() {
+  const setCurrentStep = useStepUpdate();
   const selectedAddons = useAddons();
   const isYearly = useYearly();
   const [selectedPlan] = usePlan();
-  console.log(selectedAddons);
 
   const containerVariants = {
     hidden: {
@@ -46,7 +47,7 @@ function Summary({ setCurrentStep }) {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="w-[50%]"
+      className="2xl:w-[80%] mx-auto"
     >
       <h1 className="font-bold text-4xl text-primary-blue-marine">
         Finishing up
@@ -59,14 +60,16 @@ function Summary({ setCurrentStep }) {
         <div className="flex items-center justify-between">
           <div>
             <p className="font-bold text-primary-blue-marine text-lg ">{`${
-              selectedPlan.type
-            } (${isYearly ? "Yearly" : "Monthly"})`}</p>
+              selectedPlan?.type || (!selectedPlan && "No plan selected")
+            }  (${
+              (!selectedPlan && "*") || (isYearly ? "Yearly" : "Monthly")
+            })`}</p>
             <Link className="text-neutral-gray-cool underline" to="/plan">
               Change
             </Link>
           </div>
           <p className="font-bold text-primary-blue-marine">{`+$${
-            selectedPlan.billing
+            selectedPlan ? selectedPlan?.billing : "0.00"
           }/${isYearly ? "yr" : "mo"}`}</p>
         </div>
 
@@ -79,9 +82,9 @@ function Summary({ setCurrentStep }) {
                 i !== selectedAddons.length - 1 && "mb-3"
               }`}
             >
-              <p className="text-neutral-gray-cool">{addon.type}</p>
+              <p className="text-neutral-gray-cool">{addon?.type}</p>
               <p className="font-medium text-primary-blue-marine">{`+${
-                addon.billing
+                addon?.billing
               }/${isYearly ? "yr" : "mo"}`}</p>
             </li>
           ))}
@@ -93,8 +96,9 @@ function Summary({ setCurrentStep }) {
           isYearly ? "year" : "month"
         })`}</p>
         <p className="font-bold text-2xl text-primary-blue-purplish">{`+$${
-          selectedAddons.reduce((acc, curr) => acc + curr.billing, 0) +
-          selectedPlan.billing
+          selectedAddons?.reduce((acc, curr) => acc + curr?.billing, 0) +
+            selectedPlan?.billing ||
+          (selectedAddons.length === 0 && !selectedPlan && "0.00")
         }/${isYearly ? "yr" : "mo"}`}</p>
       </div>
       <div className="flex items-center justify-between">

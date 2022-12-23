@@ -1,9 +1,7 @@
-import { useState } from "react";
-
 function Addon({ type, id, desc, billing, handleClick, isYearly, selected }) {
   return (
     <div
-      className={`px-7 py-5 border-solid border-[1px] border-neutral-gray-cool rounded-xl flex items-center gap-7 cursor-pointer ${
+      className={`px-7 py-5 border-solid border-[1px] border-neutral-gray-cool rounded-xl flex items-center gap-3 2xl:gap-7 cursor-pointer ${
         selected && "bg-neutral-magnolia border-primary-blue-purplish"
       }`}
       onClick={() => handleClick(id)}
@@ -21,10 +19,14 @@ function Addon({ type, id, desc, billing, handleClick, isYearly, selected }) {
         )}
       </div>
       <div className="mr-auto">
-        <p className="font-medium text-primary-blue-marine text-xl">{type}</p>
-        <p className="font-medium text-neutral-gray-cool text-sm">{desc}</p>
+        <p className="font-medium text-primary-blue-marine 2xl:text-xl">
+          {type}
+        </p>
+        <p className="font-medium text-neutral-gray-cool text-xs 2xl:text-sm">
+          {desc}
+        </p>
       </div>
-      <div className="text-primary-blue-purplish font-medium">
+      <div className="text-primary-blue-purplish font-medium text-sm 2xl:text-base">
         {`+$${billing}/${isYearly ? "yr" : "mo"}
 `}{" "}
       </div>

@@ -4,8 +4,10 @@ import InputInfo from "./InputInfo";
 import NextStepBtn from "./NextStepBtn";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useStepUpdate } from "../context/StepContext";
 
-function PersonalInfo({ setCurrentStep }) {
+function PersonalInfo() {
+  const setCurrentStep = useStepUpdate();
   const [inputData, setInputData] = useState({
     name: "",
     email: "",
@@ -57,7 +59,7 @@ function PersonalInfo({ setCurrentStep }) {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="flex flex-col"
+      className="flex flex-col 2xl:w-[80%] mx-auto"
     >
       <h1 className="font-bold text-4xl text-primary-blue-marine">
         Personal Info

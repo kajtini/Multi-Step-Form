@@ -9,43 +9,35 @@ import Summary from "./Summary";
 import { YearlyProvider } from "../context/YearlyContext";
 import { PlanProvider } from "../context/PlanContext";
 import { AddonsProvider } from "../context/AddonsContext";
+import { StepProvider } from "../context/StepContext";
 import ThankYou from "./ThankYou";
 
 function Card() {
   const location = useLocation();
-  const [currentStep, setCurrentStep] = useState(null);
 
   return (
-    <div className="w-[50%] bg-white rounded-xl shadow-2xl p-4">
-      <div className="flex items-center gap-28">
-        <Sidebar currentStep={currentStep} />
-        <YearlyProvider>
-          <PlanProvider>
-            <AddonsProvider>
-              <AnimatePresence mode="wait">
-                <Routes location={location} key={location.key}>
-                  <Route
-                    path="/"
-                    element={<PersonalInfo setCurrentStep={setCurrentStep} />}
-                  />
-                  <Route
-                    path="/plan"
-                    element={<SelectPlan setCurrentStep={setCurrentStep} />}
-                  />
-                  <Route
-                    path="/addons"
-                    element={<Addons setCurrentStep={setCurrentStep} />}
-                  />
-                  <Route
-                    path="/summary"
-                    element={<Summary setCurrentStep={setCurrentStep} />}
-                  />
-                  <Route path="/thanks" element={<ThankYou />} />
-                </Routes>
-              </AnimatePresence>
-            </AddonsProvider>
-          </PlanProvider>
-        </YearlyProvider>
+    <div className="2xl:w-[50%] bg-white rounded-xl lg:shadow-2xl 2xl:p-4 overflow-hidden">
+      <div className="flex  flex-col 2xl:flex-row 2xl:items-center">
+        <StepProvider>
+          <Sidebar />
+          <div className="2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-center 2xl:w-full p-5">
+            <YearlyProvider>
+              <PlanProvider>
+                <AddonsProvider>
+                  <AnimatePresence mode="wait">
+                    <Routes location={location} key={location.key}>
+                      <Route path="/" element={<PersonalInfo />} />
+                      <Route path="/plan" element={<SelectPlan />} />
+                      <Route path="/addons" element={<Addons />} />
+                      <Route path="/summary" element={<Summary />} />
+                      <Route path="/thanks" element={<ThankYou />} />
+                    </Routes>
+                  </AnimatePresence>
+                </AddonsProvider>
+              </PlanProvider>
+            </YearlyProvider>
+          </div>
+        </StepProvider>
       </div>
     </div>
   );
