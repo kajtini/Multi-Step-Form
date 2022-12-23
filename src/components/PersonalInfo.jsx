@@ -8,6 +8,7 @@ import { useStepUpdate } from "../context/StepContext";
 
 function PersonalInfo() {
   const setCurrentStep = useStepUpdate();
+  const [changeCount, setChangeCount] = useState(0);
   const [inputData, setInputData] = useState({
     name: "",
     email: "",
@@ -17,6 +18,24 @@ function PersonalInfo() {
   useEffect(() => {
     setCurrentStep(1);
   }, []);
+
+  useEffect(() => {
+    inputData.name &&
+      inputData.email &&
+      inputData.phone &&
+      setChangeCount((prevChangeCount) => prevChangeCount + 1);
+  }, [inputData]);
+
+  function determineRegex(type) {
+    switch (type) {
+      case "name":
+        return /^[a-zA-Z ]+$/;
+      case "email":
+        return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      case "phone":
+        return /^\d{3}\s?\d{3}\s?\d{3}$/;
+    }
+  }
 
   const inputTypes = Object.keys(inputData);
 
@@ -54,7 +73,6 @@ function PersonalInfo() {
 
   return (
     <motion.div
-      layout
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -70,7 +88,6 @@ function PersonalInfo() {
       <ul>
         {inputTypes.map((type, i) => (
           <motion.li
-            layout
             transition={{ duration: 1 }}
             key={type}
             className={`${i === inputTypes.length - 1 ? "mb-16" : "mb-4 "}`}
@@ -82,16 +99,43 @@ function PersonalInfo() {
               inputType={type}
               handleChange={handleChange}
               inputData={inputData[type]}
+              regex={determineRegex(type)}
             />
+            <AnimatePresence>
+              {!determineRegex(type).test(inputData[type]) &&
+                changeCount > 0 && (
+                  <motion.p
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 25,
+                    }}
+                    exit={{
+                      y: "100%",
+                      opacity: 0,
+                      transition: {
+                        duration: 0.2,
+                      },
+                    }}
+                    className="text-red-400 mt-1 text-sm px-3"
+                  >
+                    Provide a valid format of {type}
+                  </motion.p>
+                )}
+            </AnimatePresence>
           </motion.li>
         ))}
       </ul>
       <AnimatePresence>
-        {inputData.name && inputData.email && inputData.phone && (
-          <Link className="w-full flex justify-end" to="/plan">
-            <NextStepBtn />
-          </Link>
-        )}
+        {determineRegex("name").test(inputData.name) &&
+          determineRegex("email").test(inputData.email) &&
+          determineRegex("phone").test(inputData.phone) && (
+            <Link className="w-full flex justify-end" to="/plan">
+              <NextStepBtn />
+            </Link>
+          )}
       </AnimatePresence>
     </motion.div>
   );
