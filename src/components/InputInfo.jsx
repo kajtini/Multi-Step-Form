@@ -1,8 +1,8 @@
-function InputInfo({ inputType, handleChange, inputData, regex }) {
+function InputInfo({ inputType, handleChange, inputData }) {
   const placeholders = {
     holderName: "e.g. Stephen King",
     holderEmail: "e.g. stephenking@lorem.com",
-    holderPhone: "e.g. 123 456 789",
+    holderPhone: "e.g. +1 234 567 890",
   };
 
   function determinePlaceholder(type) {
